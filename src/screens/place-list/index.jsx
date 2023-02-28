@@ -4,7 +4,7 @@ import { styles } from "./styles";
 import { useSelector } from "react-redux";
 
 const PlaceList = ({ navigation }) => {
-  const places = useSelector((state) => state.places.places);
+  const places = useSelector((state) => state.place.places);
   return (
     <View style={styles.container}>
       <Text>Place List</Text>

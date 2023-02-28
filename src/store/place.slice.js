@@ -11,7 +11,7 @@ const placeSlice = createSlice({
   reducers: {
     addPlace: (state, action) => {
       const newPlace = new Place(Date.now().toString(), action.payload.title);
-      state.places.psuh(newPlace);
+      state.places.push(newPlace);
     },
   },
 });

@@ -9,11 +9,12 @@ import { useState } from "react";
 
 const NewPlace = ({ navigation }) => {
   const [title, setTitle] = useState("");
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState(null);
+  const [coords, setCoords] = useState(null);
   const dispatch = useDispatch();
 
   const onHandlerSubmit = () => {
-    dispatch(addPlace({ title, image }));
+    dispatch(addPlace({ title, image, coords }));
     navigation.goBack();
   };
   const onHandlerChange = (text) => {
@@ -25,7 +26,7 @@ const NewPlace = ({ navigation }) => {
   };
 
   const onLocation = (location) => {
-    console.warn(location);
+    setCoords(location);
   };
   return (
     <ScrollView style={styles.container}>

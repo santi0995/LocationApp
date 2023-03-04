@@ -13,7 +13,7 @@ const LocationSelector = ({ onLocation }) => {
   const verifyPermissions = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert("No hay permisos para acceder a la ubicación");
+      Alert.alert("No hay permisos para acceder a la ubicación", [{ text: "Ok" }]);
       return false;
     }
     return true;

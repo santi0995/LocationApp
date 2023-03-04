@@ -1,8 +1,8 @@
 import { Button, ScrollView, Text, TextInput, View } from "react-native";
-import { ImageSelector, LocationSelector } from '../../components'
+import { ImageSelector, LocationSelector } from "../../components";
 
-import { addPlace } from "../../store/place.slice";
 import colors from "../../utils/colors";
+import { savePlace } from "../../store/place.slice";
 import { styles } from "./styles";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -14,7 +14,7 @@ const NewPlace = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onHandlerSubmit = () => {
-    dispatch(addPlace({ title, image, coords }));
+    dispatch(savePlace(title, image, coords));
     navigation.goBack();
   };
   const onHandlerChange = (text) => {
@@ -27,6 +27,7 @@ const NewPlace = ({ navigation }) => {
 
   const onLocation = (location) => {
     setCoords(location);
+    navigation.navigate("Mpas", { location });
   };
   return (
     <ScrollView style={styles.container}>

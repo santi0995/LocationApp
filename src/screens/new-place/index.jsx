@@ -27,7 +27,6 @@ const NewPlace = ({ navigation }) => {
 
   const onLocation = (location) => {
     setCoords(location);
-    navigation.navigate("Mpas", { location });
   };
   return (
     <ScrollView style={styles.container}>

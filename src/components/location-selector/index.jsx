@@ -1,13 +1,19 @@
 import * as Location from "expo-location";
 
 import { Alert, Button, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import MapPreview from "../map-preview/index";
 import colors from "../../utils/colors";
 import { styles } from "./styles";
-import { useState } from "react";
 
 const LocationSelector = ({ onLocation }) => {
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  const { maplocation } = route.params || {};
+
   const [pickedLocation, setPickedLocation] = useState(null);
 
   const verifyPermissions = async () => {
@@ -18,7 +24,7 @@ const LocationSelector = ({ onLocation }) => {
     }
     return true;
   };
-  const onHandleGetLocation = async () => {
+  const onHandleGetLocation = async (isMaps = false) => {
     const isLocationPermission = await verifyPermissions();
     if (!isLocationPermission) return;
 
@@ -30,14 +36,29 @@ const LocationSelector = ({ onLocation }) => {
 
     setPickedLocation({ lat: latitude, lng: longitude });
     onLocation({ lat: latitude, lng: longitude });
+    if(isMaps){
+      navigation.navigate("Maps", { coords: {lat:latitude, lng: longitude}});
+    }
   };
+
+  const onHandlerMapslocation = async () => {
+    await onHandleGetLocation(true);
+  };
+
+  useEffect(() => {
+    if(maplocation) {
+      setPickedLocation(maplocation);
+      onLocation(maplocation);
+    }
+  }, [maplocation]);
+
   return (
     <View style={styles.container}>
       <MapPreview location={pickedLocation} style={styles.preview}>
         <Text style={styles.text}>No hay ninguna ubicación seleccionada</Text>
       </MapPreview>
       <Button title="Seleccionar ubicación" onPress={onHandleGetLocation} colors={colors.primary} />
-      <Button title="Seleccionar desde mapa" onPress={() => {}} colors={colors.secondary} />
+      <Button title="Seleccionar desde mapa" onPress={onHandlerMapslocation} colors={colors.secondary} />
     </View>
   );
 };

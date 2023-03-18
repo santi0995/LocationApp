@@ -12,7 +12,7 @@ const LocationSelector = ({ onLocation }) => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const { maplocation } = route.params || {};
+  const { mapLocation } = route.params || {};
 
   const [pickedLocation, setPickedLocation] = useState(null);
 
@@ -36,21 +36,21 @@ const LocationSelector = ({ onLocation }) => {
 
     setPickedLocation({ lat: latitude, lng: longitude });
     onLocation({ lat: latitude, lng: longitude });
-    if(isMaps){
-      navigation.navigate("Maps", { coords: {lat:latitude, lng: longitude}});
+    if (isMaps) {
+      navigation.navigate("Maps", { coords: { lat: latitude, lng: longitude } });
     }
   };
 
-  const onHandlerMapslocation = async () => {
+  const onHandlerMapsLocation = async () => {
     await onHandleGetLocation(true);
   };
 
   useEffect(() => {
-    if(maplocation) {
-      setPickedLocation(maplocation);
-      onLocation(maplocation);
+    if (mapLocation) {
+      setPickedLocation(mapLocation);
+      onLocation(mapLocation);
     }
-  }, [maplocation]);
+  }, [mapLocation]);
 
   return (
     <View style={styles.container}>
@@ -58,7 +58,11 @@ const LocationSelector = ({ onLocation }) => {
         <Text style={styles.text}>No hay ninguna ubicación seleccionada</Text>
       </MapPreview>
       <Button title="Seleccionar ubicación" onPress={onHandleGetLocation} colors={colors.primary} />
-      <Button title="Seleccionar desde mapa" onPress={onHandlerMapslocation} colors={colors.secondary} />
+      <Button
+        title="Seleccionar desde mapa"
+        onPress={onHandlerMapsLocation}
+        colors={colors.secondary}
+      />
     </View>
   );
 };

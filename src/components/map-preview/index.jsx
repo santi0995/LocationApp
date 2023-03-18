@@ -1,4 +1,5 @@
-import { Image, View } from "react-native";
+import React from "react";
+import { View, Image } from "react-native";
 
 import { URL_MAPS } from "../../utils/maps";
 import { styles } from "./styles";

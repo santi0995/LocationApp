@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 import colors from "../../utils/colors";
 
 export const styles = StyleSheet.create({
@@ -7,13 +8,13 @@ export const styles = StyleSheet.create({
   },
   image: {
     height: "40%",
-    minHeight: 220,
+    minHeight: 300,
     width: "100%",
   },
   location: {
     margin: 20,
     width: "90%",
-    maxWidth: 320,
+    maxWidth: 350,
     backgroundColor: colors.white,
     shadowColor: colors.black,
     shadowOpacity: 0.26,
@@ -30,6 +31,6 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
   map: {
-    height: 220,
+    height: 300,
   },
 });

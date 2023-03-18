@@ -1,8 +1,9 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import React from "react";
+import { TouchableOpacity, Image, View, Text } from "react-native";
 
-import { styles } from "./style";
+import { styles } from "./styles";
 
-const PlaceItem = ({ id, title, image, address, onSelect }) => {
+const PlaceItem = ({ id, title, image, onSelect, address }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onSelect}>
       <Image style={styles.image} source={{ uri: image }} />

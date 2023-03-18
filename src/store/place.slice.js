@@ -1,8 +1,9 @@
-import { getPlaces, insertPlace } from "../db";
+import { createSlice } from "@reduxjs/toolkit";
 
+import { insertPlace, getPlaces } from "../db";
+// import * as FileSystem from "expo-file-system";
 import Place from "../models/places";
 import { URL_GEOCODING } from "../utils/maps";
-import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   places: [],
@@ -32,22 +33,28 @@ export const { addPlace, setPlaces } = placeSlice.actions;
 
 export const savePlace = (title, image, coords) => {
   return async (dispatch) => {
+    // const fileName = image.split("/").pop();
+    // const Path = FileSystem.documentDirectory + fileName;
+    const response = await fetch(URL_GEOCODING(coords?.lat, coords?.lng));
+
+    if (!response.ok) throw new Error("No se ha podido conectar con el servidor");
+
+    const data = await response.json();
+
+    if (!data.results) throw new Error("No se ha podido encontrar la dirección");
+
+    const address = data.results[0].formatted_address;
     try {
-      const response = await fetch(URL_GEOCODING(coords?.lat, coords?.lng));
+      // await FileSystem.moveAsync({
+      //   from: image,
+      //   to: Path,
+      // });
 
-      if (!response.ok) {
-        throw new Error("No se ha podido conectar cone el servicio de geolocalización");
-      }
-
-      const data = await response.json();
-      if (!data.results) throw new Error("No se ha podido encontrar la dirección");
-
-      const address = data.results[0].formatted_address;
       const result = await insertPlace(title, image, address, coords);
-      console.warn("result", result);
       dispatch(addPlace({ id: result.insertId, title, image, address, coords }));
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
+      throw error;
     }
   };
 };
@@ -58,7 +65,7 @@ export const loadPlaces = () => {
       const result = await getPlaces();
       dispatch(setPlaces(result?.rows?._array));
     } catch (error) {
-      console.log(error);
+      console.warn(error);
       throw error;
     }
   };

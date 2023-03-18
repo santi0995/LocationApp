@@ -8,16 +8,11 @@ export const init = () => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS places (id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, image TEXT NOT NULL, address TEXT NOT NULL, coords TEXT NOT NULL);",
         [],
-        () => {
-          resolve();
-        },
-        (_, err) => {
-          reject(err);
-        }
+        () => resolve(),
+        (_, err) => reject(err)
       );
     });
   });
-
   return promise;
 };
 
@@ -30,9 +25,7 @@ export const insertPlace = (title, image, address, coords) => {
         (_, result) => {
           resolve(result);
         },
-        (_, err) => {
-          reject(err);
-        }
+        (_, err) => reject(err)
       );
     });
   });
@@ -55,6 +48,5 @@ export const getPlaces = () => {
       );
     });
   });
-
   return promise;
 };
